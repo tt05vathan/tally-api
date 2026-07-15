@@ -94,6 +94,7 @@ export const RESPONSE_FIELD_ORDER: Record<EntityType, string[]> = {
     "COUNTRY",
     "PINCODE",
     "PHONENUMBER",
+    "PAN",
     "CATEGORY",
     "PRICELEVEL",
     "STATE",

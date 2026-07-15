@@ -190,6 +190,7 @@
           "COUNTRY": { "type": "string", "nullable": true },
           "PINCODE": { "type": "number", "nullable": true },
           "PHONENUMBER": { "type": "number", "nullable": true },
+          "PAN": { "type": "string", "nullable": true },
           "CATEGORY": { "type": "string", "nullable": true },
           "PRICELEVEL": { "type": "string", "nullable": true },
           "STATE": { "type": "string", "nullable": true }

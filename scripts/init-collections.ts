@@ -190,6 +190,7 @@ const templates: CollectionTemplate[] = [
       COUNTRY: null,
       PINCODE: null,
       PHONENUMBER: null,
+      PAN: null,
       CATEGORY: null,
       PRICELEVEL: null,
       STATE: null,

@@ -125,6 +125,16 @@
           "GSTPERCENT": null,
           "HSN": 11010000
         }
+      ],
+      "LEDGERSDATA": [
+        {
+          "LEDGERNAME": "Transport charges",
+          "AMOUNT": null
+        },
+        {
+          "LEDGERNAME": "gst",
+          "AMOUNT": null
+        }
       ]
     },
     {
@@ -160,6 +170,16 @@
           "GSTPERCENT": null,
           "HSN": 10063010
         }
+      ],
+      "LEDGERSDATA": [
+        {
+          "LEDGERNAME": "Transport charges",
+          "AMOUNT": null
+        },
+        {
+          "LEDGERNAME": "gst",
+          "AMOUNT": null
+        }
       ]
     },
     {
@@ -185,6 +205,16 @@
           "AMOUNT": 45,
           "GSTPERCENT": null,
           "HSN": 21039020
+        }
+      ],
+      "LEDGERSDATA": [
+        {
+          "LEDGERNAME": "Transport charges",
+          "AMOUNT": null
+        },
+        {
+          "LEDGERNAME": "gst",
+          "AMOUNT": null
         }
       ]
     },
@@ -230,6 +260,16 @@
           "GSTPERCENT": null,
           "HSN": 9024030
         }
+      ],
+      "LEDGERSDATA": [
+        {
+          "LEDGERNAME": "Transport charges",
+          "AMOUNT": null
+        },
+        {
+          "LEDGERNAME": "gst",
+          "AMOUNT": null
+        }
       ]
     },
     {
@@ -255,6 +295,16 @@
           "AMOUNT": 5000,
           "GSTPERCENT": null,
           "HSN": 10089010
+        }
+      ],
+      "LEDGERSDATA": [
+        {
+          "LEDGERNAME": "Transport charges",
+          "AMOUNT": null
+        },
+        {
+          "LEDGERNAME": "gst",
+          "AMOUNT": null
         }
       ]
     }

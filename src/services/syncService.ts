@@ -22,7 +22,7 @@ export async function listPending(
     .get();
 
   return snapshot.docs.map((doc) =>
-    stripSyncMetadata(doc.data() as Record<string, unknown>),
+    stripSyncMetadata(doc.data() as Record<string, unknown>, collection),
   );
 }
 

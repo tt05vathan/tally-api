@@ -11,8 +11,10 @@ info:
     **Try requests:** open [/docs](/docs/try) (Swagger UI).
   version: 1.0.0
 servers:
+  - url: https://tally-9o64ajv7f-vatbyot.vercel.app
+    description: Vercel production
   - url: /
-    description: Same host as this docs page (local or Vercel)
+    description: Same host as this docs page
   - url: http://localhost:3000
     description: Local development
 tags:

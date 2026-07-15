@@ -1,0 +1,602 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Tally Sync API",
+    "description": "Backend API for the Tally Integration Service.\n\n- All GET endpoints return records where `sync_status = PENDING`\n- After import, call `POST /api/tally/ack/{recordId}` with success or failed\n- Auth: header `X-System-Token` (from `.env.local` → `SYSTEM_TOKEN`)\n\n**Swagger (try endpoints):** [/docs](/docs)\n**Redoc (reference):** [/redoc](/redoc)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    { "name": "Sale Orders" },
+    { "name": "Purchase Bills" },
+    { "name": "Credit Notes" },
+    { "name": "Debit Notes" },
+    { "name": "Suppliers" },
+    { "name": "Masterlist" },
+    { "name": "Customers" },
+    { "name": "Acknowledgement" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "X-System-Token": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-System-Token",
+        "description": "Paste the SYSTEM_TOKEN value from .env.local (example: dev-token-123)"
+      }
+    },
+    "parameters": {
+      "XSystemTokenHeader": {
+        "name": "X-System-Token",
+        "in": "header",
+        "required": true,
+        "description": "System token from SYSTEM_TOKEN in .env.local",
+        "schema": {
+          "type": "string",
+          "example": "dev-token-123"
+        }
+      }
+    },
+    "schemas": {
+      "SaleProduct": {
+        "type": "object",
+        "properties": {
+          "PRODUCTCODE": { "type": "string", "nullable": true },
+          "PRODUCTNAME": { "type": "string", "nullable": true },
+          "QTY": { "type": "number", "nullable": true },
+          "RATE": { "type": "number", "nullable": true },
+          "AMOUNT": { "type": "number", "nullable": true },
+          "GSTPERCENT": { "type": "number", "nullable": true },
+          "HSN": { "type": "number", "nullable": true },
+          "DISCOUNT": { "type": "number", "nullable": true },
+          "FINALAMOUNT": { "type": "number", "nullable": true }
+        }
+      },
+      "SaleOrder": {
+        "type": "object",
+        "properties": {
+          "ID": { "type": "string", "example": "GST/26-27/0001" },
+          "ORDERNO": { "type": "string" },
+          "ORDERDATE": { "type": "string", "example": "10-07-2026" },
+          "TRANSACTIONNO": { "type": "string" },
+          "DATE": { "type": "string" },
+          "PARTYNAME": { "type": "string" },
+          "PARTYADDRESS1": { "type": "string", "nullable": true },
+          "PARTYADDRESS2": { "type": "string", "nullable": true },
+          "PARTYADDRESS3": { "type": "string", "nullable": true },
+          "PARTYPINCODE": { "type": "number", "nullable": true },
+          "PARTYSTATE": { "type": "string", "nullable": true },
+          "PARTYGST": { "type": "string", "nullable": true },
+          "SALEACCOUNT": { "type": "string", "nullable": true },
+          "PRICELEVEL": { "type": "string", "nullable": true },
+          "TOTALVALUE": { "type": "number", "nullable": true },
+          "PRODUCTS": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/SaleProduct" }
+          }
+        }
+      },
+      "PurchaseProduct": {
+        "type": "object",
+        "properties": {
+          "PRODUCTCODE": { "type": "string", "nullable": true },
+          "PRODUCTNAME": { "type": "string", "nullable": true },
+          "QTY": { "type": "number", "nullable": true },
+          "RATE": { "type": "number", "nullable": true },
+          "AMOUNT": { "type": "number", "nullable": true },
+          "GSTPERCENT": { "type": "number", "nullable": true },
+          "HSN": { "type": "number", "nullable": true }
+        }
+      },
+      "LedgerData": {
+        "type": "object",
+        "properties": {
+          "LEDGERNAME": { "type": "string", "nullable": true },
+          "AMOUNT": { "type": "number", "nullable": true }
+        }
+      },
+      "PurchaseBill": {
+        "type": "object",
+        "properties": {
+          "ID": { "type": "string", "example": "PO/26-27/0001" },
+          "ORDERNO": { "type": "string" },
+          "ORDERDATE": { "type": "string" },
+          "TRANSACTIONNO": { "type": "string" },
+          "DATE": { "type": "string" },
+          "PARTYNAME": { "type": "string" },
+          "PARTYADDRESS1": { "type": "string", "nullable": true },
+          "PARTYADDRESS2": { "type": "string", "nullable": true },
+          "PARTYADDRESS3": { "type": "string", "nullable": true },
+          "PARTYSTATE": { "type": "string", "nullable": true },
+          "PARTYPINCODE": { "type": "number", "nullable": true },
+          "PURCHASEACCOUNT": { "type": "string", "nullable": true },
+          "TOTALVALUE": { "type": "number", "nullable": true },
+          "PRODUCTS": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PurchaseProduct" }
+          },
+          "LEDGERSDATA": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/LedgerData" }
+          }
+        }
+      },
+      "NoteProduct": {
+        "type": "object",
+        "properties": {
+          "PRODUCTCODE": { "type": "string", "nullable": true },
+          "PRODUCTNAME": { "type": "string", "nullable": true },
+          "QTY": { "type": "number", "nullable": true },
+          "RATE": { "type": "number", "nullable": true },
+          "AMOUNT": { "type": "number", "nullable": true },
+          "GSTPER": { "type": "number", "nullable": true },
+          "TOTALAMOUNT": { "type": "number", "nullable": true }
+        }
+      },
+      "CreditNote": {
+        "type": "object",
+        "properties": {
+          "ID": { "type": "string", "example": "CN/26-27/0001" },
+          "CREDITNOTENO": { "type": "string" },
+          "DATE": { "type": "string" },
+          "ORDERID": { "type": "string", "example": "GST/26-27/0001" },
+          "ORDERDATE": { "type": "string" },
+          "PARTYNAME": { "type": "string" },
+          "PRICELEVEL": { "type": "string", "nullable": true },
+          "PRODUCTS": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/NoteProduct" }
+          }
+        }
+      },
+      "DebitNote": {
+        "type": "object",
+        "properties": {
+          "ID": { "type": "string", "example": "DN/26-27/0001" },
+          "DEBITNOTENO": { "type": "string" },
+          "DATE": { "type": "string" },
+          "ORDERID": { "type": "string" },
+          "ORDERDATE": { "type": "string" },
+          "PARTYNAME": { "type": "string" },
+          "AMOUNT": { "type": "number", "nullable": true },
+          "PRODUCTS": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/NoteProduct" }
+          }
+        }
+      },
+      "Supplier": {
+        "type": "object",
+        "properties": {
+          "SUPPLIERCODE": { "type": "string" },
+          "SUPPLIERNAME": { "type": "string" },
+          "GSTIN": { "type": "string", "nullable": true },
+          "ADDRESS1": { "type": "string", "nullable": true },
+          "ADDRESS2": { "type": "string", "nullable": true },
+          "ADDRESS3": { "type": "string", "nullable": true },
+          "COUNTRY": { "type": "string", "nullable": true },
+          "PINCODE": { "type": "number", "nullable": true },
+          "PHONENUMBER": { "type": "number", "nullable": true },
+          "CATEGORY": { "type": "string", "nullable": true },
+          "PRICELEVEL": { "type": "string", "nullable": true },
+          "STATE": { "type": "string", "nullable": true }
+        }
+      },
+      "MasterProduct": {
+        "type": "object",
+        "properties": {
+          "PRODUCTCODE": { "type": "string" },
+          "PRODUCTNAME": { "type": "string" },
+          "BRAND": { "type": "string", "nullable": true },
+          "HSN": { "type": "number", "nullable": true },
+          "CATEGORY": { "type": "string", "nullable": true },
+          "UOM": { "type": "string", "nullable": true },
+          "GSTPER": { "type": "number", "nullable": true },
+          "DECIMALPLACES": { "type": "number", "nullable": true },
+          "APPLICABLEDATE": { "type": "string", "nullable": true },
+          "PAN": { "type": "string", "nullable": true }
+        }
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "CUSTOMERCODE": { "type": "string" },
+          "CUSTOMERNAME": { "type": "string" },
+          "GSTIN": { "type": "string", "nullable": true },
+          "ADDRESS1": { "type": "string", "nullable": true },
+          "ADDRESS2": { "type": "string", "nullable": true },
+          "ADDRESS3": { "type": "string", "nullable": true },
+          "COUNTRY": { "type": "string", "nullable": true },
+          "PINCODE": { "type": "number", "nullable": true },
+          "PHONENUMBER": { "type": "number", "nullable": true },
+          "PAN": { "type": "string", "nullable": true },
+          "CATEGORY": { "type": "string", "nullable": true },
+          "PRICELEVEL": { "type": "string", "nullable": true },
+          "STATE": { "type": "string", "nullable": true }
+        }
+      },
+      "AckRequest": {
+        "type": "object",
+        "required": ["STATUS"],
+        "properties": {
+          "STATUS": {
+            "type": "string",
+            "enum": ["success", "failed"],
+            "example": "success"
+          }
+        }
+      },
+      "AckResponse": {
+        "type": "object",
+        "properties": {
+          "SUCCESS": { "type": "boolean", "example": true },
+          "DATA": {
+            "type": "object",
+            "properties": {
+              "RECORD_ID": { "type": "string", "example": "GST/26-27/0001" },
+              "SYNC_STATUS": {
+                "type": "string",
+                "enum": ["SYNCED", "FAILED"]
+              }
+            }
+          },
+          "META": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "SUCCESS": { "type": "boolean", "example": false },
+          "ERROR": { "type": "string" }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "X-System-Token": []
+    }
+  ],
+  "paths": {
+    "/api/tally/sale-orders": {
+      "get": {
+        "tags": ["Sale Orders"],
+        "summary": "List PENDING sale orders",
+        "description": "Returns sale orders with sync_status = PENDING.",
+        "operationId": "getSaleOrders",
+        "security": [{ "X-System-Token": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending sale orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "SALEORDERS": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/SaleOrder" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tally/purchase-bills": {
+      "get": {
+        "tags": ["Purchase Bills"],
+        "summary": "List PENDING purchase bills",
+        "operationId": "getPurchaseBills",
+        "security": [{ "X-System-Token": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending purchase bills",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "PURCHASEBILLS": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/PurchaseBill" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tally/credit-notes": {
+      "get": {
+        "tags": ["Credit Notes"],
+        "summary": "List PENDING credit notes",
+        "operationId": "getCreditNotes",
+        "security": [{ "X-System-Token": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending credit notes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "CREDITNOTES": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/CreditNote" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tally/debit-notes": {
+      "get": {
+        "tags": ["Debit Notes"],
+        "summary": "List PENDING debit notes",
+        "operationId": "getDebitNotes",
+        "security": [{ "X-System-Token": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending debit notes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "DEBITNOTES": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/DebitNote" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tally/suppliers": {
+      "get": {
+        "tags": ["Suppliers"],
+        "summary": "List PENDING suppliers",
+        "operationId": "getSuppliers",
+        "security": [{ "X-System-Token": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending suppliers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "SUPPLIERS": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Supplier" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tally/masterlist": {
+      "get": {
+        "tags": ["Masterlist"],
+        "summary": "List PENDING masterlist products",
+        "operationId": "getMasterlist",
+        "security": [{ "X-System-Token": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "PRODUCTS": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/MasterProduct" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tally/customers": {
+      "get": {
+        "tags": ["Customers"],
+        "summary": "List PENDING customers",
+        "operationId": "getCustomers",
+        "security": [{ "X-System-Token": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending customers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "CUSTOMERS": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Customer" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tally/ack/{recordId}": {
+      "post": {
+        "tags": ["Acknowledgement"],
+        "summary": "Acknowledge sync result",
+        "description": "Updates sync_status for the record matched by orderid.\n\n- success → SYNCED\n- failed → FAILED\n\nPath may include slashes, e.g. GST/26-27/0001 or PO/26-27/0001.",
+        "operationId": "acknowledgeRecord",
+        "security": [{ "X-System-Token": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/XSystemTokenHeader" },
+          {
+            "name": "recordId",
+            "in": "path",
+            "required": true,
+            "description": "Business orderid (same as ID / SUPPLIERCODE / etc.)",
+            "schema": { "type": "string" },
+            "examples": {
+              "saleOrder": { "value": "GST/26-27/0001" },
+              "purchaseBill": { "value": "PO/26-27/0001" },
+              "creditNote": { "value": "CN/26-27/0001" }
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AckRequest" },
+              "examples": {
+                "success": { "value": { "STATUS": "success" } },
+                "failed": { "value": { "STATUS": "failed" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement processed",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AckResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid body",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

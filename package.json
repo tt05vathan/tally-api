@@ -1,0 +1,35 @@
+{
+  "name": "tally-api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "init:firestore": "npx tsx scripts/init-collections.ts",
+    "seed:firestore": "npx tsx scripts/seed-data.ts"
+  },
+  "dependencies": {
+    "core-js": "^3.49.0",
+    "firebase-admin": "^14.1.0",
+    "mobx": "^6.16.1",
+    "next": "16.2.10",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "redoc": "^2.5.3",
+    "styled-components": "^6.4.3",
+    "swagger-ui-react": "^5.32.8",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/swagger-ui-react": "^5.18.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "tsx": "^4.23.1",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "SALEORDERS": [
+    {
+      "ID": "GST/26-27/0001",
+      "ORDERNO": "GST/26-27/0001",
+      "ORDERDATE": "10-07-2026",
+      "TRANSACTIONNO": "GST/26-27/0001",
+      "DATE": "10-07-2026",
+      "PARTYNAME": "AARNA MARKETING",
+      "PARTYADDRESS1": "H.No. 5-5-33/24/D, Balanagar, IDPL",
+      "PARTYADDRESS2": "Prashanthi Nagar, Kukatpally, Hyderabad",
+      "PARTYADDRESS3": "Medchal Malkajgiri, Telangana, 500072",
+      "PARTYPINCODE": 500072,
+      "PARTYSTATE": "Telangana",
+      "PARTYGST": "36ABDFA4542M1ZC",
+      "SALEACCOUNT": null,
+      "PRICELEVEL": null,
+      "TOTALVALUE": null,
+      "PRODUCTS": [
+        {
+          "PRODUCTCODE": "120212",
+          "PRODUCTNAME": "ANJALI KASHMIR MIX",
+          "QTY": 54.0,
+          "RATE": null,
+          "AMOUNT": null,
+          "GSTPERCENT": null,
+          "HSN": 20081990,
+          "DISCOUNT": null,
+          "FINALAMOUNT": null
+        }
+      ]
+    }
+  ],
+  "PURCHASEBILLS": [
+    {
+      "ID": "PO/26-27/0002",
+      "ORDERNO": "PO/26-27/0002",
+      "ORDERDATE": "23-06-2026",
+      "TRANSACTIONNO": "PO/26-27/0002",
+      "DATE": "23-06-2026",
+      "PARTYNAME": "sagar",
+      "PARTYADDRESS1": "hyd",
+      "PARTYADDRESS2": null,
+      "PARTYADDRESS3": null,
+      "PARTYSTATE": null,
+      "PARTYPINCODE": null,
+      "PURCHASEACCOUNT": null,
+      "TOTALVALUE": 28000.0,
+      "PRODUCTS": [
+        {
+          "PRODUCTCODE": "120044",
+          "PRODUCTNAME": "MASOOR DAL",
+          "QTY": 200.0,
+          "RATE": 80.0,
+          "AMOUNT": 16000.0,
+          "GSTPERCENT": null,
+          "HSN": 7139010
+        },
+        {
+          "PRODUCTCODE": "120037",
+          "PRODUCTNAME": "Desi Fresh Chakki Atta 1 Kg",
+          "QTY": 100.0,
+          "RATE": 120.0,
+          "AMOUNT": 12000.0,
+          "GSTPERCENT": null,
+          "HSN": 11010000
+        }
+      ]
+    },
+    {
+      "ID": "PO/26-27/0001",
+      "ORDERNO": "PO/26-27/0001",
+      "ORDERDATE": "23-06-2026",
+      "TRANSACTIONNO": "PO/26-27/0001",
+      "DATE": "23-06-2026",
+      "PARTYNAME": "vathan",
+      "PARTYADDRESS1": "hyd",
+      "PARTYADDRESS2": null,
+      "PARTYADDRESS3": null,
+      "PARTYSTATE": null,
+      "PARTYPINCODE": null,
+      "PURCHASEACCOUNT": null,
+      "TOTALVALUE": 105000.0,
+      "PRODUCTS": [
+        {
+          "PRODUCTCODE": "120229",
+          "PRODUCTNAME": "TOOR DAL",
+          "QTY": 100.0,
+          "RATE": 150.0,
+          "AMOUNT": 15000.0,
+          "GSTPERCENT": null,
+          "HSN": 7136000
+        },
+        {
+          "PRODUCTCODE": "120375",
+          "PRODUCTNAME": "Vajrateja Hmt Rice 26kg",
+          "QTY": 100.0,
+          "RATE": 900.0,
+          "AMOUNT": 90000.0,
+          "GSTPERCENT": null,
+          "HSN": 10063010
+        }
+      ]
+    },
+    {
+      "ID": "PO/26-27/0003",
+      "ORDERNO": "PO/26-27/0003",
+      "ORDERDATE": "06-07-2026",
+      "TRANSACTIONNO": "PO/26-27/0003",
+      "DATE": "06-07-2026",
+      "PARTYNAME": "vathan",
+      "PARTYADDRESS1": "hyd",
+      "PARTYADDRESS2": null,
+      "PARTYADDRESS3": null,
+      "PARTYSTATE": null,
+      "PARTYPINCODE": null,
+      "PURCHASEACCOUNT": null,
+      "TOTALVALUE": 45.0,
+      "PRODUCTS": [
+        {
+          "PRODUCTCODE": "041500842639",
+          "PRODUCTNAME": "Franks Red Hot Buffalo Wing Sauce 148ml",
+          "QTY": 1.0,
+          "RATE": 45.0,
+          "AMOUNT": 45.0,
+          "GSTPERCENT": null,
+          "HSN": 21039020
+        }
+      ]
+    },
+    {
+      "ID": "PO/26-27/0005",
+      "ORDERNO": "PO/26-27/0005",
+      "ORDERDATE": "06-07-2026",
+      "TRANSACTIONNO": "PO/26-27/0005",
+      "DATE": "06-07-2026",
+      "PARTYNAME": "vathan",
+      "PARTYADDRESS1": "hyd",
+      "PARTYADDRESS2": null,
+      "PARTYADDRESS3": null,
+      "PARTYSTATE": null,
+      "PARTYPINCODE": null,
+      "PURCHASEACCOUNT": null,
+      "TOTALVALUE": 34120.0,
+      "PRODUCTS": [
+        {
+          "PRODUCTCODE": "8906023797014",
+          "PRODUCTNAME": "GOLD DROP SUNFLOWER OIL 1 LTR",
+          "QTY": 160.0,
+          "RATE": 175.0,
+          "AMOUNT": 28000.0,
+          "GSTPERCENT": null,
+          "HSN": 15121910
+        },
+        {
+          "PRODUCTCODE": "120230",
+          "PRODUCTNAME": "DAAWAT BASMATI RICE",
+          "QTY": 1.0,
+          "RATE": 3000.0,
+          "AMOUNT": 3000.0,
+          "GSTPERCENT": null,
+          "HSN": 10063010
+        },
+        {
+          "PRODUCTCODE": "120065",
+          "PRODUCTNAME": "Assam Tea 500 Gms",
+          "QTY": 24.0,
+          "RATE": 130.0,
+          "AMOUNT": 3120.0,
+          "GSTPERCENT": null,
+          "HSN": 9024030
+        }
+      ]
+    },
+    {
+      "ID": "PO/26-27/0004",
+      "ORDERNO": "PO/26-27/0004",
+      "ORDERDATE": "06-07-2026",
+      "TRANSACTIONNO": "PO/26-27/0004",
+      "DATE": "06-07-2026",
+      "PARTYNAME": "vathan",
+      "PARTYADDRESS1": "hyd",
+      "PARTYADDRESS2": null,
+      "PARTYADDRESS3": null,
+      "PARTYSTATE": null,
+      "PARTYPINCODE": null,
+      "PURCHASEACCOUNT": null,
+      "TOTALVALUE": 5000.0,
+      "PRODUCTS": [
+        {
+          "PRODUCTCODE": "120330",
+          "PRODUCTNAME": "Sorghum (Jonnalu) Millet IP 1KG",
+          "QTY": 100.0,
+          "RATE": 50.0,
+          "AMOUNT": 5000.0,
+          "GSTPERCENT": null,
+          "HSN": 10089010
+        }
+      ]
+    }
+  ],
+  "CREDITNOTES": [
+    {
+      "ID": "CN/26-27/0001",
+      "CREDITNOTENO": "CN/26-27/0001",
+      "DATE": "11-07-2026",
+      "ORDERID": "GST/26-27/0001",
+      "ORDERDATE": "10-07-2026",
+      "PARTYNAME": "AARNA MARKETING",
+      "PRICELEVEL": null,
+      "PRODUCTS": [
+        {
+          "PRODUCTCODE": "120212",
+          "PRODUCTNAME": "ANJALI KASHMIR MIX",
+          "QTY": 54.0,
+          "RATE": 0.0,
+          "AMOUNT": 0.0,
+          "GSTPER": null,
+          "TOTALAMOUNT": null
+        }
+      ]
+    }
+  ],
+  "DEBITNOTES": [],
+  "SUPPLIERS": [],
+  "PRODUCTS": [],
+  "CUSTOMERS": []
+}

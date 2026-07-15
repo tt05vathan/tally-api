@@ -4,7 +4,11 @@ import { jsonError } from "./response";
 export function requireSystemToken(
   request: Request,
 ): Response | null {
-  const token = request.headers.get("X-System-Token");
+  // Env var (Vercel): SYSTEM_TOKEN
+  // HTTP header: SYSTEM_TOKEN
+  const token =
+    request.headers.get("SYSTEM_TOKEN") ??
+    request.headers.get("system_token");
   let expected: string;
 
   try {

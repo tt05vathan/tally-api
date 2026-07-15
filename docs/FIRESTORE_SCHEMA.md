@@ -122,7 +122,7 @@ The script removes `_schema` docs, clears old `seed-*` docs, then inserts record
 
 ## API endpoints
 
-Auth header on every request: `X-System-Token: <SYSTEM_TOKEN>`
+Auth: HTTP header `SYSTEM_TOKEN` (same name as the env var).
 
 - `GET /api/tally/sale-orders`
 - `GET /api/tally/purchase-bills`

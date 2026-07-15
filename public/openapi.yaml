@@ -6,11 +6,13 @@ info:
 
     - All GET endpoints return records where `sync_status = PENDING`
     - After import, call `POST /api/tally/ack/{recordId}` with success or failed
-    - Auth: send header `X-System-Token` (value from `.env.local` → `SYSTEM_TOKEN`)
+    - Auth: send header `SYSTEM_TOKEN` (value from `.env.local` → `SYSTEM_TOKEN`)
 
-    **Try requests:** open [/docs/try](/docs/try) (Swagger UI).
+    **Try requests:** open [/docs](/docs/try) (Swagger UI).
   version: 1.0.0
 servers:
+  - url: /
+    description: Same host as this docs page (local or Vercel)
   - url: http://localhost:3000
     description: Local development
 tags:
@@ -27,7 +29,7 @@ components:
     SystemToken:
       type: apiKey
       in: header
-      name: X-System-Token
+      name: SYSTEM_TOKEN
   schemas:
     SaleProduct:
       type: object

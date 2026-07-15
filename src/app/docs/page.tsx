@@ -39,10 +39,9 @@ export default function DocsPage() {
         }}
       >
         <p style={{ margin: 0 }}>
-          Click <b>Authorize</b> (top right), paste your{" "}
-          <code>X-System-Token</code> value (from <code>.env.local</code>{" "}
-          → <code>SYSTEM_TOKEN</code>, e.g. <code>dev-token-123</code>), then
-          use <b>Try it out</b> on each endpoint.
+          Click <b>Authorize</b>, paste your <code>SYSTEM_TOKEN</code> (same
+          as the Vercel env var). Example: <code>dev-token-123</code>. Then{" "}
+          <b>Try it out</b>.
         </p>
       </div>
       <SwaggerUI

@@ -19,13 +19,22 @@ npm run dev
 With the server running:
 
 - [http://localhost:3000/redoc](http://localhost:3000/redoc) — Redoc reference
-- [http://localhost:3000/docs](http://localhost:3000/docs) — Swagger UI (Authorize with `X-System-Token`, then Try it out)
+- [http://localhost:3000/docs](http://localhost:3000/docs) — Swagger UI (Authorize with `SYSTEM_TOKEN`)
 
 OpenAPI spec: [`public/openapi.json`](public/openapi.json)
 
 ## Endpoints
 
-All require header `X-System-Token`.
+All require header `SYSTEM_TOKEN` (same name as the env var). On Vercel, only use:
+
+```
+SYSTEM_TOKEN
+FIREBASE_PROJECT_ID
+FIREBASE_CLIENT_EMAIL
+FIREBASE_PRIVATE_KEY
+```
+
+Do **not** use names with hyphens (`X-System-Token`, `System-Token`) — Vercel rejects them.
 
 | Method | Path |
 |---|---|

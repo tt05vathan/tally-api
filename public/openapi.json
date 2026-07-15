@@ -2,10 +2,14 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Tally Sync API",
-    "description": "Backend API for the Tally Integration Service.\n\n- All GET endpoints return records where `sync_status = PENDING`\n- After import, call `POST /api/tally/ack/{recordId}` with success or failed\n- Auth: header `X-System-Token` (from `.env.local` → `SYSTEM_TOKEN`)\n\n**Swagger (try endpoints):** [/docs](/docs)\n**Redoc (reference):** [/redoc](/redoc)",
+    "description": "Backend API for the Tally Integration Service.\n\n- All GET endpoints return records where `sync_status = PENDING`\n- After import, call `POST /api/tally/ack/{recordId}` with success or failed\n- Auth: header `SYSTEM_TOKEN` (from `.env.local` → `SYSTEM_TOKEN`)\n\n**Swagger (try endpoints):** [/docs](/docs)\n**Redoc (reference):** [/redoc](/redoc)",
     "version": "1.0.0"
   },
   "servers": [
+    {
+      "url": "/",
+      "description": "Same host as this docs page (local or Vercel)"
+    },
     {
       "url": "http://localhost:3000",
       "description": "Local development"
@@ -23,16 +27,16 @@
   ],
   "components": {
     "securitySchemes": {
-      "X-System-Token": {
+      "SYSTEM_TOKEN": {
         "type": "apiKey",
         "in": "header",
-        "name": "X-System-Token",
+        "name": "SYSTEM_TOKEN",
         "description": "Paste the SYSTEM_TOKEN value from .env.local (example: dev-token-123)"
       }
     },
     "parameters": {
-      "XSystemTokenHeader": {
-        "name": "X-System-Token",
+      "SystemTokenHeader": {
+        "name": "SYSTEM_TOKEN",
         "in": "header",
         "required": true,
         "description": "System token from SYSTEM_TOKEN in .env.local",
@@ -264,7 +268,7 @@
   },
   "security": [
     {
-      "X-System-Token": []
+      "SYSTEM_TOKEN": []
     }
   ],
   "paths": {
@@ -274,9 +278,9 @@
         "summary": "List PENDING sale orders",
         "description": "Returns sale orders with sync_status = PENDING.",
         "operationId": "getSaleOrders",
-        "security": [{ "X-System-Token": [] }],
+        "security": [{ "SYSTEM_TOKEN": [] }],
         "parameters": [
-          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+          { "$ref": "#/components/parameters/SystemTokenHeader" }
         ],
         "responses": {
           "200": {
@@ -311,9 +315,9 @@
         "tags": ["Purchase Bills"],
         "summary": "List PENDING purchase bills",
         "operationId": "getPurchaseBills",
-        "security": [{ "X-System-Token": [] }],
+        "security": [{ "SYSTEM_TOKEN": [] }],
         "parameters": [
-          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+          { "$ref": "#/components/parameters/SystemTokenHeader" }
         ],
         "responses": {
           "200": {
@@ -348,9 +352,9 @@
         "tags": ["Credit Notes"],
         "summary": "List PENDING credit notes",
         "operationId": "getCreditNotes",
-        "security": [{ "X-System-Token": [] }],
+        "security": [{ "SYSTEM_TOKEN": [] }],
         "parameters": [
-          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+          { "$ref": "#/components/parameters/SystemTokenHeader" }
         ],
         "responses": {
           "200": {
@@ -385,9 +389,9 @@
         "tags": ["Debit Notes"],
         "summary": "List PENDING debit notes",
         "operationId": "getDebitNotes",
-        "security": [{ "X-System-Token": [] }],
+        "security": [{ "SYSTEM_TOKEN": [] }],
         "parameters": [
-          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+          { "$ref": "#/components/parameters/SystemTokenHeader" }
         ],
         "responses": {
           "200": {
@@ -422,9 +426,9 @@
         "tags": ["Suppliers"],
         "summary": "List PENDING suppliers",
         "operationId": "getSuppliers",
-        "security": [{ "X-System-Token": [] }],
+        "security": [{ "SYSTEM_TOKEN": [] }],
         "parameters": [
-          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+          { "$ref": "#/components/parameters/SystemTokenHeader" }
         ],
         "responses": {
           "200": {
@@ -459,9 +463,9 @@
         "tags": ["Masterlist"],
         "summary": "List PENDING masterlist products",
         "operationId": "getMasterlist",
-        "security": [{ "X-System-Token": [] }],
+        "security": [{ "SYSTEM_TOKEN": [] }],
         "parameters": [
-          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+          { "$ref": "#/components/parameters/SystemTokenHeader" }
         ],
         "responses": {
           "200": {
@@ -496,9 +500,9 @@
         "tags": ["Customers"],
         "summary": "List PENDING customers",
         "operationId": "getCustomers",
-        "security": [{ "X-System-Token": [] }],
+        "security": [{ "SYSTEM_TOKEN": [] }],
         "parameters": [
-          { "$ref": "#/components/parameters/XSystemTokenHeader" }
+          { "$ref": "#/components/parameters/SystemTokenHeader" }
         ],
         "responses": {
           "200": {
@@ -534,9 +538,9 @@
         "summary": "Acknowledge sync result",
         "description": "Updates sync_status for the record matched by orderid.\n\n- success → SYNCED\n- failed → FAILED\n\nPath may include slashes, e.g. GST/26-27/0001 or PO/26-27/0001.",
         "operationId": "acknowledgeRecord",
-        "security": [{ "X-System-Token": [] }],
+        "security": [{ "SYSTEM_TOKEN": [] }],
         "parameters": [
-          { "$ref": "#/components/parameters/XSystemTokenHeader" },
+          { "$ref": "#/components/parameters/SystemTokenHeader" },
           {
             "name": "recordId",
             "in": "path",

@@ -287,12 +287,34 @@ export function stripSyncMetadata(
     prepared.VOURCHERTYPENAME = "wow-purchaseorder";
   } else if (collection === "sale_orders") {
     prepared.PRODUCTS = orderProductArray(prepared.PRODUCTS, SALE_PRODUCT_ORDER);
+    if (Array.isArray(prepared.PRODUCTS)) {
+      prepared.PRODUCTS = prepared.PRODUCTS.map((prod: any) => ({
+        ...prod,
+        RATE: null,
+        AMOUNT: null,
+        DISCOUNT: null,
+        GSTPERCENT: null,
+        GSTPER: null,
+        FINALAMOUNT: null,
+      }));
+    }
     prepared.SALEACCOUNT = prepared.SALEACCOUNT ?? prepared.saleaccount ?? "wow";
     prepared.VOURCHERTYPENAME = "wow-salesorder";
-  } else if (
-    collection === "credit_notes" ||
-    collection === "debit_notes"
-  ) {
+    prepared.TOTALVALUE = null;
+  } else if (collection === "credit_notes") {
+    prepared.PRODUCTS = orderProductArray(prepared.PRODUCTS, NOTE_PRODUCT_ORDER);
+    if (Array.isArray(prepared.PRODUCTS)) {
+      prepared.PRODUCTS = prepared.PRODUCTS.map((prod: any) => ({
+        ...prod,
+        RATE: null,
+        AMOUNT: null,
+        DISCOUNT: null,
+        GSTPERCENT: null,
+        GSTPER: null,
+        TOTALAMOUNT: null,
+      }));
+    }
+  } else if (collection === "debit_notes") {
     prepared.PRODUCTS = orderProductArray(prepared.PRODUCTS, NOTE_PRODUCT_ORDER);
   } else if (collection === "customers") {
     prepared.UNDER = prepared.CATEGORY ?? prepared.category ?? null;

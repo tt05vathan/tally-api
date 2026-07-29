@@ -31,6 +31,7 @@ const DEFAULT_PURCHASE_LEDGERS = [
 export const RESPONSE_FIELD_ORDER: Record<EntityType, string[]> = {
   sale_orders: [
     "ID",
+    "VOURCHERTYPENAME",
     "ORDERNO",
     "ORDERDATE",
     "TRANSACTIONNO",
@@ -49,6 +50,7 @@ export const RESPONSE_FIELD_ORDER: Record<EntityType, string[]> = {
   ],
   purchase_bills: [
     "ID",
+    "VOURCHERTYPENAME",
     "ORDERNO",
     "ORDERDATE",
     "TRANSACTIONNO",
@@ -122,7 +124,7 @@ export const RESPONSE_FIELD_ORDER: Record<EntityType, string[]> = {
     "PINCODE",
     "PHONENUMBER",
     "PAN",
-    "CATEGORY",
+    "UNDER",
     "PRICELEVEL",
     "STATE",
   ],
@@ -136,6 +138,7 @@ const PURCHASE_PRODUCT_ORDER = [
   "AMOUNT",
   "GSTPERCENT",
   "HSN",
+  "UOM",
 ] as const;
 
 const SALE_PRODUCT_ORDER = [
@@ -148,6 +151,7 @@ const SALE_PRODUCT_ORDER = [
   "HSN",
   "DISCOUNT",
   "FINALAMOUNT",
+  "UOM",
 ] as const;
 
 const NOTE_PRODUCT_ORDER = [
@@ -158,6 +162,7 @@ const NOTE_PRODUCT_ORDER = [
   "AMOUNT",
   "GSTPER",
   "TOTALAMOUNT",
+  "UOM",
 ] as const;
 
 const LEDGER_ORDER = ["LEDGERNAME", "AMOUNT"] as const;
@@ -232,7 +237,15 @@ function orderProductArray(
   if (!Array.isArray(products)) return [];
   return products.map((item) => {
     if (!item || typeof item !== "object") return orderObject({}, keys);
-    return orderObject(item as Record<string, unknown>, keys);
+    const itemCopy = { ...item } as Record<string, unknown>;
+    const rawQty = itemCopy.QTY ?? itemCopy.qty;
+    if (rawQty !== null && rawQty !== undefined) {
+      const num = Number(rawQty);
+      if (!isNaN(num)) {
+        itemCopy.QTY = Math.round((num + Number.EPSILON) * 100) / 100;
+      }
+    }
+    return orderObject(itemCopy, keys);
   });
 }
 
@@ -271,14 +284,21 @@ export function stripSyncMetadata(
       PURCHASE_PRODUCT_ORDER,
     );
     prepared.LEDGERSDATA = orderLedgerArray(prepared.LEDGERSDATA);
+    prepared.VOURCHERTYPENAME = "wow-purchaseorder";
   } else if (collection === "sale_orders") {
     prepared.PRODUCTS = orderProductArray(prepared.PRODUCTS, SALE_PRODUCT_ORDER);
+    prepared.SALEACCOUNT = prepared.SALEACCOUNT ?? prepared.saleaccount ?? "wow";
+    prepared.VOURCHERTYPENAME = "wow-salesorder";
   } else if (
     collection === "credit_notes" ||
     collection === "debit_notes"
   ) {
     prepared.PRODUCTS = orderProductArray(prepared.PRODUCTS, NOTE_PRODUCT_ORDER);
+  } else if (collection === "customers") {
+    prepared.UNDER = prepared.CATEGORY ?? prepared.category ?? null;
   }
+
+  prepared.PRICELEVEL = prepared.PRICELEVEL ?? prepared.pricelevel ?? "Level-1";
 
   const order = RESPONSE_FIELD_ORDER[collection];
   const ordered: Record<string, unknown> = {};

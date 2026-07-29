@@ -242,7 +242,7 @@ function orderProductArray(
     if (rawQty !== null && rawQty !== undefined) {
       const num = Number(rawQty);
       if (!isNaN(num)) {
-        itemCopy.QTY = Math.round((num + Number.EPSILON) * 100) / 100;
+        itemCopy.QTY = num.toFixed(2);
       }
     }
     return orderObject(itemCopy, keys);
